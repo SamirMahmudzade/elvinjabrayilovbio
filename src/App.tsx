@@ -10,7 +10,6 @@ import {
   ShareNetwork,
   Check,
   Disc,
-  SpeakerHigh,
   EnvelopeSimple,
   FilmSlate
 } from '@phosphor-icons/react';
@@ -92,7 +91,6 @@ const LINKS = [
 export default function App() {
   const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
   const [copied, setCopied] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   const handleShare = async () => {
     if (navigator.clipboard) {
@@ -136,7 +134,7 @@ export default function App() {
             />
           </div>
           <span className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-[#181818] border-2 border-[#000000] flex items-center justify-center text-[#FFFFFF]">
-            <Disc size={12} className={isPlayingAudio ? 'animate-spin' : ''} />
+            <Disc size={12} className={activeVideo ? 'animate-spin' : ''} />
           </span>
         </div>
 
@@ -194,30 +192,27 @@ export default function App() {
           </a>
         </div>
 
-        {/* Interactive Audio Player Preview Pill */}
-        <div className="w-full rounded-2xl border border-[#272727] bg-[#181818] p-3 mb-6 flex items-center justify-between text-left">
+        {/* Featured Single YouTube Link and Player Card */}
+        <div
+          onClick={() => setActiveVideo(VIDEOS[0])}
+          className="group w-full cursor-pointer rounded-2xl border border-[#272727] bg-[#181818] p-3 mb-6 flex items-center justify-between text-left hover:border-[#313131] hover:bg-[#1F1F1F] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+        >
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsPlayingAudio(!isPlayingAudio)}
-              aria-label={isPlayingAudio ? 'Mahnını dayandır' : 'Mahnını dinlə'}
-              className="w-9 h-9 rounded-full bg-[#FFFFFF] text-[#000000] flex items-center justify-center hover:bg-[#FFFFFF]/90 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-95 flex-shrink-0"
-            >
-              {isPlayingAudio ? <Disc size={18} className="animate-spin" /> : <Play size={16} weight="fill" className="ml-0.5" />}
-            </button>
+            <div className="w-10 h-10 rounded-full bg-[#FFFFFF] text-[#000000] flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0 shadow-md">
+              <Play size={18} weight="fill" className="ml-0.5" />
+            </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-semibold text-[#FFFFFF] truncate">Sıfırdan Başladım</p>
-              <p className="text-[11px] text-[#9B9B9B] font-mono">Ən son sinql • 2025</p>
+              <div className="flex items-center gap-2">
+                <p className="text-xs font-semibold text-[#FFFFFF] truncate">Sıfırdan Başladım</p>
+                <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-[#272727] text-[#FFFFFF] uppercase">Yeni</span>
+              </div>
+              <p className="text-[11px] text-[#9B9B9B] font-mono">Rəsmi klip • 2:09</p>
             </div>
           </div>
-          <div className="flex items-center gap-1 pr-2">
-            {[40, 80, 50, 100, 60, 90, 40].map((h, i) => (
-              <span
-                key={i}
-                style={{ height: isPlayingAudio ? `${h}%` : '25%' }}
-                className="w-1 h-5 bg-[#FFFFFF] rounded-full transition-all duration-300"
-              />
-            ))}
-            <SpeakerHigh size={14} className="text-[#9B9B9B] ml-1" />
+          <div className="flex items-center gap-1.5 text-xs font-mono text-[#9B9B9B] group-hover:text-[#FFFFFF] transition-colors pr-1">
+            <YoutubeLogo size={18} weight="fill" className="text-[#FFFFFF]" />
+            <span className="hidden sm:inline">Klipə bax</span>
+            <ArrowUpRight size={14} weight="bold" />
           </div>
         </div>
 
